@@ -42,9 +42,7 @@ const Create = (props) => {
             };
 
             fetch('https://localhost:5001/Recipe', requestOptions)
-                .then(response => response.json())
-                //.then(data => this.setState({ postId: data.id }));            
-            
+                .then(response => response.json())                
         }else{
             alert('NO!');
         }
