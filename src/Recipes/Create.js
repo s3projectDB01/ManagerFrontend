@@ -42,7 +42,9 @@ const Create = (props) => {
             };
 
             fetch('https://localhost:5001/Recipe', requestOptions)
-                .then(response => response.json())                
+                .then(response => response.json())        
+            
+            alert('Recipe created go back to view recipes');
         }else{
             alert('NO!');
         }

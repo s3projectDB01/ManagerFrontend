@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
 export function Overview(){
+
     const [recipes, setRecipes] = useState([]);
-    const [selectedRecipe, setSelectedRecipe] = useState({});
+    const [selectedRecipe, setSelectedRecipe] = useState({
+        title : ' ',
+        ingredients : []       
+    });
+    const [adjustedRecipe, setAdjustedRecipe] = useState({});
     const [selectedIngredient, setSelectedIngredient] = useState({});
     const [ingredientTitle, setIngredientTitle] = useState();
     const [IngredientAmount, setIngredientAmount] = useState();
-    const [updatedRecipe, setUpdatedRecipe] = useState({});
 
     useEffect(() => {
         fetch("https://localhost:5001/Recipe/getRecipes")
@@ -28,16 +32,21 @@ export function Overview(){
     }
     
     const SaveChanges = (e) =>{
-        const newRecipe = {
-            ...selectedRecipe,
+        e.preventDefault();
+        
+        const index = selectedRecipe.ingredients.indexOf(selectedIngredient);
+        const newIngredient = {
+            Name: ingredientTitle, 
+            AmountNeeded: IngredientAmount
         }
-        newRecipe.ingredients[0].amountNeeded = 5;
-        setUpdatedRecipe(newRecipe);
+        setAdjustedRecipe(selectedRecipe);
+        adjustedRecipe.ingredients.splice(index, 1);
+        adjustedRecipe.ingredients.push(newIngredient);
         
         const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedRecipe)
+        body: JSON.stringify(adjustedRecipe)
     };
     fetch('https://localhost:5001/Recipe/updateRecipe', requestOptions)
         .then(response => response.json())
@@ -73,7 +82,9 @@ export function Overview(){
                     </tr>
                 </thead>
                 <tbody>
-                    {/* {selectedRecipe.ingredients.map(ingredient =>
+                    {
+                    
+                    selectedRecipe.ingredients.map(ingredient =>
                         <tr key = {ingredient}>
                             <td>{ingredient.name}</td>
                             <center>
@@ -81,7 +92,7 @@ export function Overview(){
                             </center> 
                             <td><button onClick={() => setSelectedIngredient(ingredient)}>Edit</button></td>
                         </tr>
-                    )} */}
+                    )}
                     {/* <tr>
                         {JSON.stringify(selectedRecipe.ingredients)}
                     </tr> */}
