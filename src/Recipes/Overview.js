@@ -82,9 +82,7 @@ export function Overview(){
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                    
-                    selectedRecipe.ingredients.map(ingredient =>
+                    {selectedRecipe.ingredients.map(ingredient =>
                         <tr key = {ingredient}>
                             <td>{ingredient.name}</td>
                             <center>

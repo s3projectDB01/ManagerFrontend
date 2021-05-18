@@ -1,22 +1,6 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  }));
 
 const Create = (props) => {
-    const classes = useStyles();
     const [recipeTitle, setrecipeTitle] = useState("");
     const blankIngredient = { 
         Name: '', 
@@ -70,41 +54,39 @@ const Create = (props) => {
         <center>
             <form>
 
-            <label htmlFor="recipeTitle">Recipe Title</label>
+            <label htmlFor="recipeTitle">recipeTitle</label>
             <br/>   
             <input
                 id = "recipeTitle"
                 name = "recipeTitle"
                 placeholder = "Enter recipe title"
                 value = {recipeTitle}
-                onChange = {onRecipeTitleUpdate} />               
+                onChange = {onRecipeTitleUpdate} />
+                
+                <br/>
                 <br/>
                 <br/>
                 <input type="button" value="Add New Ingredient" onClick={addIngredient}/>
-                {ingredientState.map((val, idx) => {
+                <br/>
+                <br/>
+                {
+                    ingredientState.map((val, idx) => {
                         const ingredientId = `Name=${idx}`;
                         const amountNeededtId = `AmountNeeded=${idx}`;
                         return(
                             <div key={`ingredient-${idx}`}>
-                                
-                                <center>
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel id="demo-simple-select-label">{`Ingredient #${idx + 1}`}</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id={ingredientId}
-                                        name={ingredientId}
-                                        data-idx={idx}
-                                        value={ingredientState[idx].Name}
-                                        onChange={handleIngredientChange}
-                                    >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                </center>
-
+                                <label htmlFor={ingredientId}>{`Ingredient #${idx + 1}`}</label>
+                                <br/>
+                                <input
+                                    type="text"
+                                    name={ingredientId}
+                                    data-idx={idx}
+                                    id={ingredientId}
+                                    className="Name"
+                                    value={ingredientState[idx].Name}
+                                    onChange={handleIngredientChange}
+                                />
+                                <br/>
                                 <label htmlFor={amountNeededtId}>Amount Needed</label>
                                 <br/>
                                 <input
@@ -115,7 +97,7 @@ const Create = (props) => {
                                     className="AmountNeeded"
                                     value={ingredientState[idx].AmountNeeded}
                                     onChange={handleIngredientChange}
-                                />
+                                /><br/><br/>
                             </div>
                         );
                     })

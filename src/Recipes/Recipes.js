@@ -1,40 +1,41 @@
 import Create from './Create';
 import Overview from './Overview';
+import CreateIngredient from './CreateIngredient';
 import {Link, BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import React, { useState } from 'react';
 
 export function Recipes(){
-    const [test, settest] = useState();
-    
-    async function saveRecipe(recipe){
-        const item = recipe.Title;
-        settest(item);
-    }
-
     return(
         <center>
             <div> 
                 <Router>
+                    <Link to="/">
+                        <button>
+                            Overview
+                        </button>
+                    </Link>
                     <Link to="/Create">
                         <button>
                             Create a recipe
                         </button>
+                    </Link>  
+                    <Link to="/CreateIngredient">
+                        <button>
+                            Create Ingredient
+                        </button>
                     </Link>
                     <Switch>
                         <Route exact path="/Create">
-                            <Create saveRecipe={saveRecipe} />
+                            <Create/>
                         </Route>
                         <Route exact path="/">
                             <Overview />
                         </Route>
+                        <Route exact path="/CreateIngredient">
+                            <CreateIngredient />
+                        </Route>
                     </Switch>
                 </Router>                     
             </div>
-            <div>
-                {test}
-            </div>
-
-
         </center>    
     );
 }
