@@ -34,7 +34,7 @@ export function CreateIngredient(){
                 body: JSON.stringify(ingredientState)
             };
 
-            fetch('https://localhost:5001/Ingredient/CreateMultiple', requestOptions)
+            fetch('https://inventory.tycho.dev/Ingredient/CreateMultiple', requestOptions)
                 .then(response => response.json())        
             
             alert('Recipe ingredient go back to view recipes');

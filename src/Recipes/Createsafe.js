@@ -41,7 +41,7 @@ const Create = (props) => {
                 body: JSON.stringify(obj)
             };
 
-            fetch('https://localhost:5001/Recipe', requestOptions)
+            fetch('https://inventory.tycho.dev/Recipe', requestOptions)
                 .then(response => response.json())        
             
             alert('Recipe created go back to view recipes');

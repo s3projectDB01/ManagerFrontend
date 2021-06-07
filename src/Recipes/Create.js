@@ -33,7 +33,7 @@ const Create = (props) => {
 
     useEffect(() => {
         setLoading(true);
-        fetch("https://localhost:5001/Ingredient/GetAll")
+        fetch("https://inventory.tycho.dev/Ingredient/GetAll")
         .then(results => results.json())
         .then(res =>{
             setIngredients(res);
@@ -89,7 +89,7 @@ const Create = (props) => {
                 body: JSON.stringify(obj)
             };
 
-            fetch('https://localhost:5001/Recipe', requestOptions)
+            fetch('https://inventory.tycho.dev/Recipe', requestOptions)
                 .then(response => response.json())        
             
             alert('Recipe created go back to view recipes');
