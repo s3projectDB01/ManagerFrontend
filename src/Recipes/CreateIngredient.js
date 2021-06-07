@@ -4,9 +4,8 @@ export function CreateIngredient(){
 
     const blankIngredient = { 
         Name: '', 
-        AmountNeeded:'' 
+        AmountNeeded:0 
     };
-
 
     const [ingredientState, setIngredientState] = useState([
         {...blankIngredient}
@@ -22,21 +21,20 @@ export function CreateIngredient(){
         setIngredientState(updatedIngredients);
     };
 
+
     const OnSubmit = (e) =>{
         e.preventDefault();
-        const obj = {
-            ingredients : ingredientState
-        }
+
         const isValueProvided = ingredientState && ingredientState !== "";
 
         if(isValueProvided){
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(obj)
+                body: JSON.stringify(ingredientState)
             };
 
-            fetch('https://localhost:5001/Recipe', requestOptions)
+            fetch('https://localhost:5001/Ingredient/CreateMultiple', requestOptions)
                 .then(response => response.json())        
             
             alert('Recipe ingredient go back to view recipes');
@@ -72,7 +70,7 @@ export function CreateIngredient(){
                                 <label htmlFor={amountNeededtId}>Amount in Inventory</label>
                                 <br/>
                                 <input
-                                    type="text"
+                                    type="number"
                                     name={amountNeededtId}
                                     data-idx={idx}
                                     id={amountNeededtId}

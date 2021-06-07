@@ -4,16 +4,16 @@ export function Overview(){
 
     const [recipes, setRecipes] = useState([]);
     const [selectedRecipe, setSelectedRecipe] = useState({
+        id: "",
         title : ' ',
-        ingredients : []       
+        ingredientsNeeded : []       
     });
-    const [adjustedRecipe, setAdjustedRecipe] = useState({});
     const [selectedIngredient, setSelectedIngredient] = useState({});
     const [ingredientTitle, setIngredientTitle] = useState();
     const [IngredientAmount, setIngredientAmount] = useState();
 
     useEffect(() => {
-        fetch("https://localhost:5001/Recipe/getRecipes")
+        fetch("https://localhost:5001/Recipe/GetAll")
         .then(results => results.json())
         .then(res =>{
             setRecipes(res);
@@ -34,22 +34,26 @@ export function Overview(){
     const SaveChanges = (e) =>{
         e.preventDefault();
         
-        const index = selectedRecipe.ingredients.indexOf(selectedIngredient);
         const newIngredient = {
+            id: selectedIngredient.id,
             Name: ingredientTitle, 
             AmountNeeded: IngredientAmount
         }
-        setAdjustedRecipe(selectedRecipe);
-        adjustedRecipe.ingredients.splice(index, 1);
-        adjustedRecipe.ingredients.push(newIngredient);
-        
+
+        // const index = selectedRecipe.ingredientsNeeded.indexOf(selectedIngredient);
+        // if (index > -1) {
+        //     selectedRecipe.ingredientsNeeded.splice(index, 1);
+        // }
+
+        // selectedRecipe.ingredientsNeeded.push(newIngredient);  
+
         const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(adjustedRecipe)
-    };
-    fetch('https://localhost:5001/Recipe/updateRecipe', requestOptions)
-        .then(response => response.json())
+        body: JSON.stringify(newIngredient)
+        };
+        fetch('https://localhost:5001/Recipe/Update/ingredient', requestOptions)
+            .then(response => response.json())
     }
 
     return(
@@ -82,7 +86,7 @@ export function Overview(){
                     </tr>
                 </thead>
                 <tbody>
-                    {selectedRecipe.ingredients.map(ingredient =>
+                    {selectedRecipe.ingredientsNeeded.map(ingredient =>
                         <tr key = {ingredient}>
                             <td>{ingredient.name}</td>
                             <center>
@@ -91,9 +95,9 @@ export function Overview(){
                             <td><button onClick={() => setSelectedIngredient(ingredient)}>Edit</button></td>
                         </tr>
                     )}
-                    {/* <tr>
-                        {JSON.stringify(selectedRecipe.ingredients)}
-                    </tr> */}
+                    <tr>
+                        {/* {JSON.stringify(selectedRecipe.ingredientsNeeded)} */}
+                    </tr>
                     
                 </tbody>
             </table>

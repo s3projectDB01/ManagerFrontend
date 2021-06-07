@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -18,22 +19,52 @@ const useStyles = makeStyles((theme) => ({
 const Create = (props) => {
     const classes = useStyles();
     const [recipeTitle, setrecipeTitle] = useState("");
+    const [ingredients, setIngredients] = useState();
+    const [loading, setLoading] = useState(true);
+
     const blankIngredient = { 
         Name: '', 
-        AmountNeeded:'' };
+        AmountNeeded:'' 
+    };
+    
     const [ingredientState, setIngredientState] = useState([
         {...blankIngredient}
     ]);
+
+    useEffect(() => {
+        setLoading(true);
+        fetch("https://localhost:5001/Ingredient/GetAll")
+        .then(results => results.json())
+        .then(res =>{
+            setIngredients(res);
+        });
+        setLoading(false);
+    },[]);
 
     const addIngredient = () => {
         setIngredientState([...ingredientState, {...blankIngredient}]);
     }
 
-    const handleIngredientChange = (e) => {
+    const handleIngredientChange = (e) =>{
+        let id  = e.target.name.charAt(e.target.name.length-1);
         const updatedIngredients = [...ingredientState];
-        updatedIngredients[e.target.dataset.idx][e.target.className] = e.target.value;
+        updatedIngredients[id]["Name"] = e.target.value;
+        //updatedIngredients[id][e.target.className] = e.target.value;
         setIngredientState(updatedIngredients);
+        //const { myValue } = e.currentTarget.dataset;
+        
+        console.log(id);
+        console.log(e);
+        console.log(e.target.value)
     };
+    
+    const handleIngredientChangeAmount = (e) =>{
+        let id  = e.target.name.charAt(e.target.name.length-1);
+        const updatedIngredients = [...ingredientState];
+        updatedIngredients[id]["AmountNeeded"] = e.target.value;
+        setIngredientState(updatedIngredients);
+        console.log(e.target.value)
+    }
 
     const onRecipeTitleUpdate = (e) => {
         setrecipeTitle(e.target.value);
@@ -43,8 +74,9 @@ const Create = (props) => {
         e.preventDefault();
 
         const obj = {
+            id : uuidv4(),
             title : recipeTitle,
-            ingredients : ingredientState
+            ingredientsNeeded : ingredientState
         }
 
         const isTitleProvided = recipeTitle && recipeTitle !== "";
@@ -66,10 +98,13 @@ const Create = (props) => {
         }
     }
 
+    if (loading) {
+        return <p>Data is loading...</p>;
+    }
+    console.log(ingredientState)
     return(
         <center>
             <form>
-
             <label htmlFor="recipeTitle">Recipe Title</label>
             <br/>   
             <input
@@ -85,22 +120,28 @@ const Create = (props) => {
                         const ingredientId = `Name=${idx}`;
                         const amountNeededtId = `AmountNeeded=${idx}`;
                         return(
-                            <div key={`ingredient-${idx}`}>
-                                
+                            <div key={`ingredient-${idx}`}>  
                                 <center>
                                 <FormControl className={classes.formControl}>
-                                    <InputLabel id="demo-simple-select-label">{`Ingredient #${idx + 1}`}</InputLabel>
+                                    <InputLabel htmlFor={ingredientId} id="demo-simple-select-label">{`Ingredient #${idx + 1}`}</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
-                                        id={ingredientId}
                                         name={ingredientId}
                                         data-idx={idx}
+                                        id={ingredientId}
+                                        className="Name"
                                         value={ingredientState[idx].Name}
                                         onChange={handleIngredientChange}
                                     >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                    {ingredients.map(ingredient =>
+                                        <MenuItem 
+                                        value={ingredient.name}
+                                        value2={"Name"} 
+                                        id={idx}>
+                                            {ingredient.name}
+                                        </MenuItem>
+                                    )
+                                   }
                                     </Select>
                                 </FormControl>
                                 </center>
@@ -114,12 +155,13 @@ const Create = (props) => {
                                     id={amountNeededtId}
                                     className="AmountNeeded"
                                     value={ingredientState[idx].AmountNeeded}
-                                    onChange={handleIngredientChange}
+                                    onChange={handleIngredientChangeAmount}
                                 />
                             </div>
                         );
                     })
                 }
+
                 <br/>
                     <button onClick={OnSubmit}>Save Receipe</button>           
             </form>
