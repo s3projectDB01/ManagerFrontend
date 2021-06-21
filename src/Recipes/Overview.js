@@ -23,15 +23,17 @@ export function Overview() {
   const [IngredientAmount, setIngredientAmount] = useState();
 
   useEffect(() => {
-    fetch("https://localhost:5001/Recipe/GetAll")
+    fetch("https://inventory.tycho.dev/Recipe/GetAll")
       .then((results) => results.json())
       .then((res) => {
         setRecipes(res);
       });
   }, []);
 
-  function OnDelete(id) {
-    fetch(`https://localhost:5001/Recipe/Delete/${id}`, { method: "DELETE" });
+  function OnDelete(title) {
+    fetch(`https://inventory.tycho.dev/Recipe/delete/${title}`, {
+      method: "DELETE",
+    });
     alert("Recipe deleted");
   }
 
@@ -51,17 +53,16 @@ export function Overview() {
       Name: selectedIngredient.name,
       AmountNeeded: IngredientAmount,
     };
-
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newIngredient),
     };
+
     fetch(
-      "https://localhost:5001/Recipe/Update/ingredient",
+      "https://inventory.tycho.dev/Recipe/Update/ingredient",
       requestOptions
     ).then((response) => response.json());
-
     alert("Recipe updated");
   };
 
@@ -167,5 +168,3 @@ export function Overview() {
   );
 }
 export default Overview;
-
-

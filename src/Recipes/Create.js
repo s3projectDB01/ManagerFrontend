@@ -39,24 +39,13 @@ const Create = (props) => {
     { ...blankIngredient },
   ]);
 
-  // const blankIngredient = {
-  //     Name: "Empty",
-  //     AmountNeeded: 0
-  // };
-
-  // const [ingredientState, setIngredientState] = useState([
-  //     {...blankIngredient}
-  // ]);
-
   useEffect(() => {
-    setLoading(true);
-    fetch("https://localhost:5001/Ingredient/GetAll")
-      .then((results) => results.json())
-      .then((res) => {
+    fetch("https://inventory.tycho.dev/Ingredient/GetAll")
+    .then(results => results.json())
+    .then(res =>{
         setIngredients(res);
-      });
-    setLoading(false);
-  }, []);
+    });
+},[]);
 
   const addIngredient = () => {
     setIngredientState([...ingredientState, { ...blankIngredient }]);
@@ -67,51 +56,46 @@ const Create = (props) => {
     const updatedIngredients = [...ingredientState];
     updatedIngredients[id]["Name"] = e.target.value;
     setIngredientState(updatedIngredients);
-
-    console.log(id);
-    console.log(e);
-    console.log(e.target.value);
   };
-
+    
   const handleIngredientChangeAmount = (e) => {
     let id = e.target.name.charAt(e.target.name.length - 1);
     const updatedIngredients = [...ingredientState];
     updatedIngredients[id]["AmountNeeded"] = e.target.value;
     setIngredientState(updatedIngredients);
-    console.log(e.target.value);
+
   };
 
   const onRecipeTitleUpdate = (e) => {
     setrecipeTitle(e.target.value);
   };
 
-  const OnSubmit = (e) => {
-    e.preventDefault();
+    const OnSubmit = (e) =>{
+        e.preventDefault();
 
-    const obj = {
-      id: uuidv4(),
-      title: recipeTitle,
-      ingredientsNeeded: ingredientState,
-    };
+        const obj = {
+            id : uuidv4(),
+            title : recipeTitle,
+            ingredientsNeeded : ingredientState
+        }
 
-    const isTitleProvided = recipeTitle && recipeTitle !== "";
+        const isTitleProvided = recipeTitle && recipeTitle !== "";
+        
+        if(isTitleProvided){
+            console.log(obj)
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(obj)
+            };
 
-    if (isTitleProvided) {
-      console.log(obj);
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(obj),
-      };
-
-      fetch("https://localhost:5001/Recipe/Create", requestOptions).then(
-        (response) => response.json()
-      );
-
-      alert("Recipe created go back to view recipes");
-    } else {
-      alert("NO!");
-    }
+            fetch('https://inventory.tycho.dev/Recipe', requestOptions)
+                .then(response => response.json())        
+            
+            alert('Recipe created go back to view recipes');
+        }else{
+            alert('NO!');
+        }  
   };
 
   if (loading) {
