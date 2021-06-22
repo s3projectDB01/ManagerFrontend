@@ -105,10 +105,10 @@ export function Overview() {
         <table width="30%">
           <thead>
             <tr>
-              <th>{selectedRecipe.title}</th>
+              <th>{selectedRecipe.title} ingredients</th>
               <th>amount of ingredient</th>
               <th>edit</th>
-              <th>delete</th>
+              {/* <th>delete</th> */}
             </tr>
           </thead>
           <tbody>
@@ -126,7 +126,7 @@ export function Overview() {
                   </Button>
                 </td>
 
-                <td>
+                {/* <td>
                   <Button
                     onClick={() =>
                       DeleteIngredientFromRecipe(ingredient, selectedRecipe)
@@ -136,7 +136,7 @@ export function Overview() {
                   >
                     Delete
                   </Button>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
