@@ -1,6 +1,7 @@
 import Create from "./Create";
 import Overview from "./Overview";
 import CreateIngredient from "./CreateIngredient";
+import RestockIngredient from "./RestockIngredient.js";
 import { Link, BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -24,7 +25,7 @@ export function Recipes() {
           <Router>
             <Link to="/">
               <Button variant="contained" color="primary">
-                Overview
+                Change Recipe Ingredients
               </Button>
             </Link>
             <Link to="/Create">
@@ -37,6 +38,11 @@ export function Recipes() {
                 Create Ingredient
               </Button>
             </Link>
+            <Link to="/RestockIngredient">
+              <Button variant="contained" color="primary">
+                Restock Ingredient
+              </Button>
+            </Link>
             <Switch>
               <Route exact path="/Create">
                 <Create />
@@ -46,6 +52,9 @@ export function Recipes() {
               </Route>
               <Route exact path="/CreateIngredient">
                 <CreateIngredient />
+              </Route>
+              <Route exact path="/RestockIngredient">
+                <RestockIngredient />
               </Route>
             </Switch>
           </Router>

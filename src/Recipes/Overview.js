@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function Overview() {
-  const classes = useStyles();
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState({
     id: "",
@@ -68,13 +67,12 @@ export function Overview() {
 
   return (
     <center>
-      <div className={classes.root}>
-        <table>
+        <table width="30%">
           <thead>
             <tr>
-              <th>Recipes</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th class="col-md-3">Recipes</th>
+              <th class="col-md-3">Edit</th>
+              <th class="col-md-3">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -104,7 +102,7 @@ export function Overview() {
           </tbody>
         </table>
         <br />
-        <table>
+        <table width="30%">
           <thead>
             <tr>
               <th>{selectedRecipe.title}</th>
@@ -117,9 +115,7 @@ export function Overview() {
             {selectedRecipe.ingredientsNeeded.map((ingredient) => (
               <tr key={ingredient}>
                 <td>{ingredient.name}</td>
-                <center>
-                  <td>{ingredient.amountNeeded}</td>
-                </center>
+                <td>{ingredient.amountNeeded}</td>
                 <td>
                   <Button
                     onClick={() => setSelectedIngredient(ingredient)}
@@ -143,7 +139,6 @@ export function Overview() {
                 </td>
               </tr>
             ))}
-            <tr>{/* {JSON.stringify(selectedRecipe.ingredientsNeeded)} */}</tr>
           </tbody>
         </table>
         <br />
@@ -163,7 +158,6 @@ export function Overview() {
             Save Receipe
           </Button>
         </form>
-      </div>
     </center>
   );
 }

@@ -28,7 +28,6 @@ const Create = (props) => {
   const classes = useStyles();
   const [recipeTitle, setrecipeTitle] = useState("");
   const [ingredients, setIngredients] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const blankIngredient = {
     Name: "",
@@ -97,10 +96,6 @@ const Create = (props) => {
             alert('NO!');
         }  
   };
-
-  if (loading) {
-    return <p>Data is loading...</p>;
-  }
 
   return (
     <center>

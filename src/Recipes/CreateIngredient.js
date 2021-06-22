@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -71,6 +72,7 @@ export function CreateIngredient() {
                 <br />
                 <TextField
                   type="text"
+                  label="Ingredient title"
                   name={ingredientId}
                   data-idx={idx}
                   id={ingredientId}
@@ -83,7 +85,6 @@ export function CreateIngredient() {
                 <label htmlFor={amountNeededtId}>Amount in Inventory</label>
                 <br />
                 <TextField
-                  label="Enter a number"
                   type="number"
                   name={amountNeededtId}
                   data-idx={idx}
@@ -97,8 +98,9 @@ export function CreateIngredient() {
               </div>
             );
           })}
-          <br />
-          <button onClick={OnSubmit}>Save Receipe</button>
+          <Button onClick={OnSubmit} variant="contained" color="primary">
+            Save Recipe
+          </Button>
         </form>
       </div>
     </center>
