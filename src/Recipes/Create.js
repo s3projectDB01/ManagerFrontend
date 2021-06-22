@@ -88,7 +88,7 @@ const Create = (props) => {
                 body: JSON.stringify(obj)
             };
 
-            fetch('https://inventory.tycho.dev/Recipe', requestOptions)
+            fetch('https://inventory.tycho.dev/Recipe/Create', requestOptions)
                 .then(response => response.json())        
             
             alert('Recipe created go back to view recipes');
@@ -151,6 +151,7 @@ const Create = (props) => {
                 <TextField
                   name={amountNeededtId}
                   data-idx={idx}
+                  type="number"
                   id={amountNeededtId}
                   className="AmountNeeded"
                   value={ingredientState[idx].AmountNeeded}

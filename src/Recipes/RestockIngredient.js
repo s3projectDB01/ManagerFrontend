@@ -75,6 +75,7 @@ const RestockIngredient = (props) => {
   return (
     <div>
       <br />
+      <h3>Pick a product</h3>
       <FormControl className={classes.formControl}>
         <Select
           labelId="demo-simple-select-label"
@@ -97,7 +98,6 @@ const RestockIngredient = (props) => {
       <Button onClick={saveChange} variant="contained" color="primary">
         Restock Ingredient
       </Button>
-      <h1>{JSON.stringify(updatedIngredient)}</h1>
     </div>
   );
 };

@@ -27,10 +27,9 @@ export function CreateIngredient() {
     setIngredientState([...ingredientState, { ...blankIngredient }]);
   };
 
-  const handleIngredientChange = (e) => {
+  const handleIngredientChange = (name, idx, value) => {
     const updatedIngredients = [...ingredientState];
-    updatedIngredients[e.target.dataset.idx][e.target.className] =
-      e.target.value;
+    updatedIngredients[idx][name] = value;
     setIngredientState(updatedIngredients);
   };
 
@@ -59,7 +58,7 @@ export function CreateIngredient() {
       <div className={classes.root}>
         <form>
           <Button onClick={addIngredient} variant="contained" color="primary">
-            Add New Ingredient
+            Add Extra Ingredient
           </Button>
           <br />
           <br />
@@ -71,14 +70,12 @@ export function CreateIngredient() {
                 <label htmlFor={ingredientId}>{`Ingredient #${idx + 1}`}</label>
                 <br />
                 <TextField
-                  type="text"
                   label="Ingredient title"
                   name={ingredientId}
                   data-idx={idx}
-                  id={ingredientId}
+                  id="standard-basic"
                   className="Name"
-                  value={ingredientState[idx].Name}
-                  onChange={handleIngredientChange}
+                  onChange={(e) => handleIngredientChange("Name", idx, e.target.value)}
                 />
                 <br />
                 <br />
@@ -88,10 +85,8 @@ export function CreateIngredient() {
                   type="number"
                   name={amountNeededtId}
                   data-idx={idx}
-                  id={amountNeededtId}
-                  className="AmountNeeded"
-                  value={ingredientState[idx].AmountNeeded}
-                  onChange={handleIngredientChange}
+                  id="standard-basic"
+                  onChange={(e) => handleIngredientChange("AmountNeeded", idx, e.target.value)}
                 />
                 <br />
                 <br />
@@ -99,7 +94,7 @@ export function CreateIngredient() {
             );
           })}
           <Button onClick={OnSubmit} variant="contained" color="primary">
-            Save Recipe
+            Create Ingredient(s)
           </Button>
         </form>
       </div>
